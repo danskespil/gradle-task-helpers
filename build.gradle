@@ -1,3 +1,9 @@
+plugins {
+    id "com.jfrog.bintray" version "1.7.3"
+    id 'org.ajoberstar.grgit' version '1.7.1'
+    id 'org.ajoberstar.release-opinion' version '1.7.1'
+}
+
 apply plugin: 'groovy'
 
 repositories {
@@ -5,6 +11,18 @@ repositories {
     mavenCentral()
     maven {
         url "https://dl.bintray.com/jwermuth/org.jwermuth"
+    }
+}
+
+import org.ajoberstar.gradle.git.release.opinion.Strategies
+
+release {
+    grgit = org.ajoberstar.grgit.Grgit.open()
+    defaultVersionStrategy = Strategies.SNAPSHOT
+    versionStrategy Strategies.SNAPSHOT
+    tagStrategy {
+        prefixNameWithV = false // defaults to true
+        generateMessage = { version -> "My new version $version.version" }
     }
 }
 
