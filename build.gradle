@@ -11,11 +11,15 @@ dependencies {
         exclude module: 'groovy-all'
     }
     testCompile group: 'commons-io', name: 'commons-io', version: '2.5'
-    testCompile project(':gradle-test-spock-helpers')
+    testCompile project(':gradle-test-spock-helpers') // todo - add the right one, once this has been publicly shared
 }
 
 test {
     testLogging {
         events "STANDARD_OUT", "STANDARD_ERROR"
     }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = "4.2"
 }
