@@ -1,0 +1,25 @@
+publishing {
+    publications {
+        MyPublication(MavenPublication) {
+            from components.java
+            groupId 'dk.danskespil.gradle.plugins'
+            artifactId "${project.name}"
+            version "${project.version}"
+        }
+    }
+}
+
+bintray {
+    user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
+    key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
+    publications = ['MyPublication']
+    pkg {
+        repo = 'org.jwermuth'
+        name = "${project.name}"
+        licenses = ['GPL-3.0']
+        vcsUrl = "https://github.com/jwermuth/${project.name}.git"
+        version {
+            name = "${project.version}"
+        }
+    }
+}
