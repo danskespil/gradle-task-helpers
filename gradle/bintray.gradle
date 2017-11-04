@@ -1,6 +1,48 @@
-apply plugin: 'maven'
-apply plugin: 'maven-publish'
+// Usage https://github.com/bintray/gradle-bintray-plugin
+
+// To avoid this issue https://github.com/gradle/gradle/issues/1118, which can cause transitive dependencies of your
+//   published artifacts not to be included, make sure to apply the java-library plugin to your build script.
+// See also https://docs.gradle.org/current/userguide/java_library_plugin.html for configuration of java-library plugin
 apply plugin: 'java'
+apply plugin: 'java-library'
+// maven publish is required for gradle-bintray-plugin
+apply plugin: 'maven-publish'
+
+// At the moment the Java Library plugin is only wired to behave correctly with the java plugin. Other plugins,
+// such as the Groovy plugin, may not behave correctly. In particular, if the Groovy plugin is used in addition
+// to the java-library plugin, then consumers may not get the Groovy classes when they consume the library.
+// To workaround this, you need to explicitly wire the Groovy compile dependency, like this:
+configurations {
+    apiElements {
+        outgoing.variants.getByName('classes').artifact(
+                file: compileGroovy.destinationDir,
+                type: ArtifactTypeDefinition.JVM_CLASS_DIRECTORY,
+                builtBy: compileGroovy)
+    }
+}
+
+def gitUrl = 'https://github.com/jwermuth/gradle-task-helpers.git'
+// Create the pom configuration:
+def pomConfig = {
+    licenses {
+        license {
+            name 'GPL-3.0'
+            url 'http://fsf.org/'
+            distribution 'repo'
+        }
+    }
+    developers {
+        developer {
+            id "jwermuth"
+            name "Jesper Agerled Wermuth"
+            email "jwermuth@gmail.com"
+        }
+    }
+
+    scm {
+        url gitUrl
+    }
+}
 
 publishing {
     publications {
@@ -9,6 +51,13 @@ publishing {
             groupId 'dk.danskespil.gradle.plugins'
             artifactId "${project.name}"
             version "${project.version}"
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', "${project.name}")
+                root.appendNode('name', "${project.name}")
+                root.appendNode('url', gitUrl)
+                root.children().last() + pomConfig
+            }
         }
     }
 }
@@ -18,12 +67,15 @@ bintray {
     key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
     publications = ['MyPublication']
     pkg {
-        repo = 'org.jwermuth'
+        repo = 'oss'
         name = "${project.name}"
         licenses = ['GPL-3.0']
-        vcsUrl = "https://github.com/jwermuth/${project.name}.git"
+        vcsUrl = gitUrl
         version {
             name = "${project.version}"
+            vcsTag = "${project.version}"
         }
     }
 }
+
+bintrayUpload.dependsOn build

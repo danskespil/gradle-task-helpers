@@ -14,3 +14,17 @@ static var, a factory or other code based state is not present when the test is 
 If so, this jar can help you. It gives you a base class that you can extend to build a mock-able gradle 'service', 
 e.g. a service that commits changes to you code (which you do not want to do when testing the plugin)
 
+# Releasing and publishing
+This is just for the maintainer (me, for the moment).
+
+* Release, following ajoberstar plugin https://github.com/ajoberstar/gradle-git/wiki/Release%20Plugins
+  * ./gradlew clean release -Prelease.scope=major_minor_OR_patch -Prelease.stage=final_OR_rc_OR_milestone_OR_dev
+  * e.g. ./gradlew clean release -Prelease.scope=patch -Prelease.stage=final
+  * ./gradlew clean release # snapshot version
+  * ./gradlew clean release -Prelease.scope=patch -Prelease.stage=dev # e.g. fiddling with readme
+* Deployment to bintray.
+  * Provide credentials. I have added mine to ~/.gradle/gradle.properties:
+  ** bintrayUser=USER
+  ** bintrayApiKey=KEY
+  * ./gradlew clean bintrayUpload
+  * ./gradlew clean generatePomFileForMyPublicationPublication bintrayUpload

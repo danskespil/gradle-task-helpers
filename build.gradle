@@ -10,7 +10,7 @@ repositories {
     jcenter()
     mavenCentral()
     maven {
-        url "https://dl.bintray.com/jwermuth/org.jwermuth"
+        url "https://dl.bintray.com/jwermuth/oss"
     }
 }
 
@@ -33,7 +33,7 @@ dependencies {
         exclude module: 'groovy-all'
     }
     testCompile group: 'commons-io', name: 'commons-io', version: '2.5'
-    testCompile 'dk.danskespil.gradle.plugins:gradle-plugin-test-spock-helpers:0.0.3'
+    testCompile 'dk.danskespil.gradle.plugins:gradle-plugin-test-spock-helpers:0.0.16'
 }
 
 test {
