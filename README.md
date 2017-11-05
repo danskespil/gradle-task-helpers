@@ -14,6 +14,76 @@ static var, a factory or other code based state is not present when the test is 
 If so, this jar can help you. It gives you a base class that you can extend to build a mock-able gradle 'service', 
 e.g. a service that commits changes to you code (which you do not want to do when testing the plugin)
 
+# How does it work
+
+First, you have to set up your test, so it enables the mocking. Here, this is done by creating a base class for 
+testing (this is a spock test, called a Specification), that you can extend to make your actual tests
+
+```groovy
+package YOUR.PACKAGE
+
+import dk.danskespil.gradle.task.helpers.GradleServiceExecuteOnOSFactory
+import spock.lang.Specification
+
+class BaseSpecification extends Specification {
+    def setup() {
+        setupTestStubsByAddingMarkerFilesToAConventionNamedDirectory()
+    }
+
+    void setupTestStubsByAddingMarkerFilesToAConventionNamedDirectory() {
+-S->    GradleServiceExecuteOnOSFactory.instance.enableStub()
+    }
+}
+```
+at ```-S->``` you tell all your tests not to actually run anything when using GradleServiceExecuteOnOSFactory
+
+Then, you create a custom groovy task, extending default task. Here is an example of a task that executes git 
+ on your platform 
+```groovy
+class GitCommand extends DefaultTask {
+    @Internal
+    CommandLine commandLine = new CommandLine()
+    @Internal
+    GradleServiceExecuteOnOS executor = GradleServiceExecuteOnOSFactory.instance.createService(project)
+    @Input
+    String commandsFlagsAndArgs = ""
+
+    @TaskAction
+    action() {
+        commandLine.addToEnd('git')
+        commandLine.addToEnd(commandsFlagsAndArgs)
+-A->        executor.executeExecSpec(this, { ExecSpec e ->
+            e.commandLine this.commandLine
+        })
+    }
+}
+```
+The magic happens at ```-A->``` where the ```executor``` is used to actually run the command. When under test, as given in this
+example
+
+```groovy
+class GitCommandTest extends BaseSpecification {
+    def "can create task"() {
+        given:
+        buildFile << """
+         plugins {
+                id 'dk.lundogbendsen.gradle.plugins.auditwithgit'
+         }
+         
+         task cut(type:dk.lundogbendsen.gradle.plugins.auditwithgit.commands.GitCommand) 
+"""
+        when:
+        def build = buildWithTasks(':cut')
+
+        then:
+        build
+        build.task(':cut').outcome == TaskOutcome.SUCCESS
+        build.output.contains('git')
+    }
+```
+the GitCommand is not actually run, because you set  GradleServiceExecuteOnOSFactory to be stubbed at 
+```-S->```.
+
 # Releasing and publishing
 This is just for the maintainer (me, for the moment).
 
