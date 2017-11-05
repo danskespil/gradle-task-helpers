@@ -96,5 +96,4 @@ This is just for the maintainer (me, for the moment).
   * Provide credentials. I have added mine to ~/.gradle/gradle.properties:
   ** bintrayUser=USER
   ** bintrayApiKey=KEY
-  * ./gradlew clean bintrayUpload
-  * ./gradlew clean generatePomFileForMyPublicationPublication bintrayUpload
+  * ./gradlew clean build generatePomFileForMyPublicationPublication bintrayUpload
