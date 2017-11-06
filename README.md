@@ -84,6 +84,10 @@ class GitCommandTest extends BaseSpecification {
 the GitCommand is not actually run, because you set  GradleServiceExecuteOnOSFactory to be stubbed at 
 ```-S->```.
 
+#Example project
+https://github.com/jwermuth/gradle-plugin-terraform
+
+
 # Releasing and publishing
 This is just for the maintainer (me, for the moment).
 
