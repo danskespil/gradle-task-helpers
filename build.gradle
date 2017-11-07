@@ -33,7 +33,7 @@ dependencies {
         exclude module: 'groovy-all'
     }
     testCompile group: 'commons-io', name: 'commons-io', version: '2.5'
-    testCompile 'dk.danskespil.gradle.plugins:gradle-plugin-test-spock-helpers:0.0.16'
+    testCompile 'dk.danskespil.gradle.plugins:gradle-plugin-test-spock-helpers:0.1.2'
 }
 
 test {
