@@ -17,6 +17,18 @@ static var, a factory or other code based state is not present when the test is 
 If so, this jar can help you. It gives you a base class that you can extend to build a mock-able gradle 'service', 
 e.g. a service that commits changes to you code (which you do not want to do when testing the plugin)
 
+# How do I use it
+add this to your build.gradle
+```gradle
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'dk.danskespil.gradle.plugins:gradle-task-helpers:0.0.3' // use latest version. You can see which in the badge at the top of this README
+}
+```
+
 # How does it work
 
 First, you have to set up your test, so it enables the mocking. Here, this is done by creating a base class for 
