@@ -3,7 +3,10 @@ Build Status master branch [![Build Status master branch](https://travis-ci.org/
 ** This repository is not fully operational yet. If you use the watch feature I will notify once its operational **
 
 # Whats this for
-It helps us at Danske Spil and Lund&Bendsen to test our gradle plugins.
+It helps you testing gradle plugins.
+
+We are using it at [Danske Spil](https://danskespil.dk/) and [Lund&Bendsen](https://home.lundogbendsen.dk/), perhaps you
+can also benefit from it.
 
 Does this sound familiar :
 
