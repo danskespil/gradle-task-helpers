@@ -1,8 +1,6 @@
 Build Status master branch [![Build Status master branch](https://travis-ci.org/jwermuth/gradle-task-helpers.svg?branch=master)](https://travis-ci.org/jwermuth/gradle-task-helpers)
 
-** This repository is not fully operational yet. If you use the watch feature I will notify once its operational **
-
-# Whats this for
+# What is this repository for
 It helps you testing gradle plugins.
 
 We are using it at [Danske Spil](https://danskespil.dk/) and [Lund&Bendsen](https://home.lundogbendsen.dk/), perhaps you
