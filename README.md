@@ -1,4 +1,4 @@
-[![Build Status master branch](https://travis-ci.org/jwermuth/gradle-task-helpers.svg?branch=master)](https://travis-ci.org/jwermuth/gradle-task-helpers)
+[![Build Status master branch](https://travis-ci.org/danskespil/gradle-task-helpers.svg?branch=master)](https://travis-ci.org/danskespil/gradle-task-helpers)
 [ ![Download](https://api.bintray.com/packages/jwermuth/oss/gradle-task-helpers/images/download.svg) ](https://bintray.com/jwermuth/oss/gradle-task-helpers/_latestVersion) 
 
 
